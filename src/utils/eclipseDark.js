@@ -1,10 +1,5 @@
 import { Dark, LocalStorage } from 'quasar'
 
-/**
- * toggleDarkEclipse
- * mode: "reveal"  → revela el nuevo tema encogiendo el círculo (sin blackout)
- *       "cover"   → cubre con círculo que crece (blackout circular)
- */
 export function toggleDarkEclipse (evt, {
   darkBg   = '#121212',   // $dark-page
   lightBg  = '#ffffff',   // fondo claro base
@@ -59,8 +54,6 @@ export function toggleDarkEclipse (evt, {
 
   overlay.style.clipPath = start
   document.body.appendChild(overlay)
-  // Fuerza reflow
-  // eslint-disable-next-line no-unused-expressions
   overlay.offsetHeight
   overlay.style.clipPath = end
 

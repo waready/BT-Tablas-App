@@ -1,29 +1,51 @@
+// src/router/index.js
 import { defineRouter } from '#q-app/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
+import { useAuthStore } from 'stores/auth'
 
-/*
- * If not building with SSR mode, you can
- * directly export the Router instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Router instance.
- */
-
-export default defineRouter(function (/* { store, ssrContext } */) {
+export default defineRouter(({ store }) => {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
     : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory)
 
   const Router = createRouter({
-    scrollBehavior: () => ({ left: 0, top: 0 }),
+    history: createHistory(process.env.VUE_ROUTER_BASE),
     routes,
+    scrollBehavior: () => ({ left: 0, top: 0 })
+  })
 
-    // Leave this as is and make changes in quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.VUE_ROUTER_BASE)
+  Router.beforeEach((to) => {
+    const auth = useAuthStore(store)
+
+    // rehidrata (una vez) si no hay nada en memoria
+    if (!auth.accessToken) auth.rehydrateFromStorage()
+
+    const isLogged = auth.isLogged
+    const isPublic = to.meta?.public === true
+    const isGuestOnly = to.meta?.guestOnly === true
+
+    // Si el token está vencido, limpiar y tratar como no logueado
+    if (auth.accessToken && !isLogged) {
+      auth.clear()
+    }
+
+    // A) Logueado y /login (guestOnly) -> home
+    if (isLogged && isGuestOnly) {
+      return { name: 'home' }
+    }
+
+    // B) Ruta pública -> pasa
+    if (isPublic) return true
+
+    // C) Ruta privada y no logueado -> /login?redirect=...
+    if (!isLogged) {
+      const redirect = to.fullPath && to.fullPath !== '/login' ? { redirect: to.fullPath } : undefined
+      return { name: 'login', query: redirect }
+    }
+
+    // D) Privada y logueado -> pasa
+    return true
   })
 
   return Router
