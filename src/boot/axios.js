@@ -3,7 +3,7 @@ import axios from 'axios'
 // ✅ relativo desde src/boot a src/stores
 import { useAuthStore } from '../stores/auth'
 
-const baseURL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:4000/'
+const baseURL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:3000/api/v1/'
 
 export const api = axios.create({ baseURL, withCredentials: true })
 

@@ -75,7 +75,7 @@
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered
       :class="$q.dark.isActive ? 'bg-dark text-white' : 'bg-white text-dark'">
-      <q-img class="q-mx-md " :src="$q.dark.isActive ? '/logo.png' : '/logoB.png'" width="280px" />
+      <q-img :class="[$q.dark.isActive ? 'q-mx-md' : 'q-mt-sm q-ml-md q-mb-md' ]" :src="$q.dark.isActive ? '/logo.png' : '/logoB.png'" width="200px" />
       <q-list>
         <q-item to="/" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
@@ -86,9 +86,18 @@
           </q-item-section>
         </q-item>
 
+        <q-item to="/tablas" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="table_chart" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Tablas</q-item-label>
+          </q-item-section>
+        </q-item>
+
         <q-item to="/areas" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
-            <q-icon name="group" />
+            <q-icon name="account_tree" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Áreas Funcionales</q-item-label>
@@ -97,7 +106,7 @@
 
         <q-item to="/paises" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
-            <q-icon name="fas fa-globe-americas" />
+            <q-icon name="public" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Países</q-item-label>
@@ -106,7 +115,7 @@
 
         <q-item to="/sistemas" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
-            <q-icon name="settings" />
+            <q-icon name="dns" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Sistemas</q-item-label>
@@ -115,7 +124,7 @@
 
         <q-item to="/reportes" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
-            <q-icon name="download" />
+            <q-icon name="summarize" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Reportes</q-item-label>

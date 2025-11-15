@@ -12,13 +12,13 @@
 
             <!-- Campos -->
             <q-card-section class="q-pt-none">
-              <q-input dense standout="bg-white text-dark" class="bt-input" v-model="form.username" type="text"
+              <q-input dense standout="bg-white" input-class="text-black" class="bt-input" v-model="form.username" type="text"
                 autocomplete="username" :label="tt('login.user', 'Usuario')" :error="errors.username"
                 :error-message="tt('login.errors.required', 'Este campo es requerido')">
                 <template #prepend><q-icon name="person" /></template>
               </q-input>
 
-              <q-input dense standout="bg-white text-dark" class="bt-input q-mt-sm" v-model="form.password"
+              <q-input dense standout="bg-white" input-class="text-black" class="bt-input q-mt-sm" v-model="form.password"
                 :type="show ? 'text' : 'password'" autocomplete="current-password"
                 :label="tt('login.pass', 'Contraseña')" :error="errors.password"
                 :error-message="tt('login.errors.required', 'Este campo es requerido')">
@@ -99,7 +99,7 @@ export default {
 
       try {
         // Llama a tu backend
-        const { data } = await this.$api.post('/api/v1/login', {
+        const { data } = await this.$api.post('login', {
           username: this.form.username,
           email: this.form.username,
           password: this.form.password,
@@ -172,6 +172,7 @@ export default {
 /* Inputs con foco elegante */
 .bt-input :deep(.q-field__control) {
   border-radius: 12px;
+  color: #141414;
   transition: box-shadow .18s ease, transform .08s ease, background .18s ease;
 }
 
