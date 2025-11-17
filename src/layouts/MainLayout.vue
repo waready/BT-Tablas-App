@@ -75,7 +75,8 @@
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered
       :class="$q.dark.isActive ? 'bg-dark text-white' : 'bg-white text-dark'">
-      <q-img :class="[$q.dark.isActive ? 'q-mx-md' : 'q-mt-sm q-ml-md q-mb-md' ]" :src="$q.dark.isActive ? '/logo.png' : '/logoB.png'" width="200px" />
+      <q-img :class="[$q.dark.isActive ? 'q-mx-md' : 'q-mt-sm q-ml-md q-mb-md']"
+        :src="$q.dark.isActive ? '/logo.png' : '/logoB.png'" width="200px" />
       <q-list>
         <q-item to="/" active-class="q-item-no-link-highlighting">
           <q-item-section avatar>
@@ -127,7 +128,16 @@
             <q-icon name="summarize" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>Reportes</q-item-label>
+            <q-item-label>Reporteador</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item to="/usuarios" active-class="q-item-no-link-highlighting">
+          <q-item-section avatar>
+            <q-icon name="fa fa-users" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Usuarios/Roles</q-item-label>
           </q-item-section>
         </q-item>
         <q-separator spaced />
@@ -141,6 +151,12 @@
     <q-page-container :class="$q.dark.isActive ? 'bg-dark-page' : 'bg-grey-2'">
       <router-view />
     </q-page-container>
+    <!-- 🔵 BOTÓN FLOTANTE -->
+    <q-btn v-if="isLogged" round color="primary" icon="chat" class="q-pa-md"
+      style="position: fixed; bottom: 20px; right: 20px; z-index: 2000;" @click="toggleChat" />
+
+    <!-- 🟣 PANEL DE CHAT FLOTANTE -->
+    <ChatWidget />
   </q-layout>
 </template>
 
@@ -149,6 +165,7 @@ import { defineComponent, computed, onMounted } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
 import { toggleDarkEclipse } from 'src/utils/eclipseDark'
 import { useAuthStore } from 'stores/auth'
+import ChatWidget from 'src/components/ChatWidget.vue'
 
 const linksList = [
   { title: 'Docs', caption: 'quasar.dev', icon: 'school', link: 'https://quasar.dev' },
@@ -162,7 +179,7 @@ const linksList = [
 
 export default defineComponent({
   name: 'MainLayout',
-  components: { EssentialLink },
+  components: { EssentialLink, ChatWidget },
 
   setup() {
     const auth = useAuthStore()

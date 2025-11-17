@@ -14,12 +14,16 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.16.4",
+    "ace-builds": "^1.43.4",
+    "apexcharts": "^5.3.6",
     "axios": "^1.2.1",
+    "mermaid": "^11.12.1",
     "pinia": "^3.0.3",
     "quasar": "^2.16.0",
     "vue": "3.5.20",
     "vue-i18n": "^11.0.0",
-    "vue-router": "^4.0.0"
+    "vue-router": "^4.0.0",
+    "vue3-apexcharts": "^1.10.0"
   },
   "devDependencies": {
     "@intlify/unplugin-vue-i18n": "^4.0.0",

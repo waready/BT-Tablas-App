@@ -14,6 +14,8 @@ const routes = [
       { path: '/areas', name: 'areas', component: () => import('src/pages/AreasPage.vue') },
       { path: '/paises', name: 'paises', component: () => import('src/pages/PaisesPage.vue') },
       { path: '/sistemas', name: 'sistemas', component: () => import('src/pages/SistemasPage.vue') },
+      { path: '/reportes', name: 'reportes', component: () => import('src/pages/ReportePage.vue') },
+      { path: '/usuarios', name: 'usuarios', component: () => import('src/pages/UsuariosRolesPage.vue') },
       // ...tus pestañas privadas aquí
     ]
   },
