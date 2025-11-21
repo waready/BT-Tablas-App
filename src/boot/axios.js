@@ -3,7 +3,7 @@ import { defineBoot } from '#q-app/wrappers'
 import axios from 'axios'
 import { useAuthStore } from '../stores/auth'
 
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1'
+const baseURL = import.meta.env.VITE_API_URL || 'https://bttablas.lat/api/v1'
 
 // withCredentials no molesta, pero ya no es requerido si el refresh va por body
 export const api = axios.create({ baseURL, withCredentials: true })
@@ -12,7 +12,7 @@ export default defineBoot(({ app, router }) => {
   const auth = useAuthStore()
 
   // 👉 Helper para cerrar sesión y mandar al login
-  function forceLogoutAndGoLogin () {
+  function forceLogoutAndGoLogin() {
     auth.clear()
     router.push({ name: 'login' }) // o router.push('/login')
   }
@@ -82,23 +82,23 @@ export default defineBoot(({ app, router }) => {
     }
   )
 
-  // 🔁 Intentar refrescar al cargar la app (por si el user ya tenía refreshToken)
-  ;(async () => {
-    try {
-      const rt = auth.getRefreshToken?.() || auth.refreshToken
-      if (!rt) return
+    // 🔁 Intentar refrescar al cargar la app (por si el user ya tenía refreshToken)
+    ; (async () => {
+      try {
+        const rt = auth.getRefreshToken?.() || auth.refreshToken
+        if (!rt) return
 
-      const { data } = await api.post('/auth/refresh', {
-        refreshToken: rt
-      })
+        const { data } = await api.post('/auth/refresh', {
+          refreshToken: rt
+        })
 
-      auth.setAccessToken(data.access_token, data.expires_in || 3600)
-    } catch (e) {
-      console.error('Refresh inicial falló', e)
-      // aquí puedes decidir limpiar sesión si quieres
-      // forceLogoutAndGoLogin()
-    }
-  })()
+        auth.setAccessToken(data.access_token, data.expires_in || 3600)
+      } catch (e) {
+        console.error('Refresh inicial falló', e)
+        // aquí puedes decidir limpiar sesión si quieres
+        // forceLogoutAndGoLogin()
+      }
+    })()
 
   app.config.globalProperties.$axios = axios
   app.config.globalProperties.$api = api
